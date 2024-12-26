@@ -1,0 +1,1 @@
+Giriş yapan usera ait olarak JWT dönmeli.
