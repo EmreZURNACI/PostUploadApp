@@ -1,0 +1,83 @@
+syntax ="proto3";
+option go_package ="Api/";
+
+service PostApp{
+	rpc UploadPost(stream UploadPostReq) returns (UploadPostRes); 
+	rpc SignIn(SignInReq) returns (SignInRes);
+	rpc SignUp(SignUpReq) returns (SignUpRes);
+	rpc LikePost(LikePostReq) returns (LikePostRes);
+	rpc DislikePost(DislikePostReq) returns (DislikePostRes);
+	rpc CommentPost(CommentPostReq) returns (CommentPostRes);
+}
+
+
+message LikePostReq{
+	string token=1;
+	string uuid=2;
+}
+message DislikePostReq{
+	string token=1;
+	string uuid=2;	
+}
+message CommentPostReq{
+	string token=1;
+	string post_uuid=2;
+	string user_uuid=3;
+	string comment=4;
+}
+
+message LikePostRes{
+	bool status=1;
+	int32 statusCode=2;
+	string message=3;	
+}
+
+message DislikePostRes{
+	bool status=1;
+	int32 statusCode=2;
+	string message=3;
+}
+
+message CommentPostRes{
+	bool status=1;
+	int32 statusCode=2;
+	string message=3;
+}
+
+message UploadPostReq{
+	string token=1;
+	string user_id=2;
+	bytes chunk=3;
+}
+message UploadPostRes{
+	bool status=1;
+	int32 statusCode=2;
+	string message=3; 
+}
+message SignInReq{
+	string email=1;
+	string telno=2;
+	string password=3;
+}
+message SignInRes{
+	bool status=1;
+	int32 statusCode=2;
+	string message=3;
+	string token=4;
+}
+message SignUpReq{
+	string username=1;
+	string name=2;
+	string lastname=3;
+	string nickname=4;
+	string email=5;
+	string password=6;
+	string tel=7;
+}
+
+message SignUpRes{
+	bool status=1;
+	int32 statusCode=2;
+	string message=3;
+}
+
