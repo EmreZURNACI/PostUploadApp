@@ -46,6 +46,12 @@ Use the following command to start a PostgreSQL container:
 
 Run the following command to install the required dependencies:
 ```bash 
+  cd Server
+  go mod tidy
+```
+
+```bash 
+  cd Client
   go mod tidy
 ```
 
