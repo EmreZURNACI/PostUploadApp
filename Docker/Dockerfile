@@ -1,0 +1,7 @@
+FROM postgres
+WORKDIR /app
+COPY ./dumpfile /app/
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=123
+ENV POSTGRES_DB=grpc_denemesi
+EXPOSE 5555:5432
