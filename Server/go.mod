@@ -6,9 +6,12 @@ require PostUploadApp/Api v0.0.0
 
 require PostUploadApp/Database v0.0.0
 
+require PostUploadApp/Token v0.0.0
+
 require google.golang.org/grpc v1.69.2
 
 require (
+	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	golang.org/x/net v0.30.0 // indirect
@@ -19,5 +22,7 @@ require (
 )
 
 replace PostUploadApp/Api => ../Api
+
+replace PostUploadApp/Token => ../Token
 
 replace PostUploadApp/Database => ../Database
