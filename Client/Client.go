@@ -24,10 +24,17 @@ func main() {
 	var ctx context.Context = context.Background()
 	res, err := SignIn(client, ctx)
 	if err != nil {
-		fmt.Println("Token alınamadı." + err.Error())
+		fmt.Println(err)
 		return
 	}
-	CreatePost(client, ctx, res.GetToken(), "d226e771-6eec-4861-a9b3-01dbce7a5a81")
+
+	res2, err2 := LikePost(client, ctx, res.Token, "ae65db75-e2e6-459f-8bb7-77b8fed9cbfc")
+	if err2 != nil {
+		fmt.Println(err2)
+		return
+	}
+	fmt.Println(res2)
+
 }
 
 func CreatePost(client Api.PostAppClient, ctx context.Context, token string, user_id string) {
