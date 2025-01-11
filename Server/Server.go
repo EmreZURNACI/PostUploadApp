@@ -3,6 +3,7 @@ package main
 import (
 	Api "PostUploadApp/Api"
 	db "PostUploadApp/Database"
+	token "PostUploadApp/Token"
 	"context"
 	"errors"
 	"fmt"
@@ -44,8 +45,8 @@ func (p *PostAppServer) UploadPost(stream Api.PostApp_UploadPostServer) error {
 		return fmt.Errorf("Stream alınamadı: %v", err)
 	}
 
-	if req.GetToken() != "randomjwt" {
-		return errors.New("Unauthorized: Token bulunamadı.")
+	if _, err := token.ParseToken(req.GetToken()); err != nil {
+		return errors.New("Unauthorized: Token geçersiz.")
 	}
 
 	homeDirectory, err := os.UserHomeDir()
@@ -139,11 +140,15 @@ func (p *PostAppServer) SignIn(ctx context.Context, req *Api.SignInReq) (*Api.Si
 	if err != nil {
 		return nil, err
 	}
+	token, err := token.CreateToken(req.GetEmail(), req.GetTelno())
+	if err != nil {
+		return nil, err
+	}
 	return &Api.SignInRes{
 		Status:     true,
 		StatusCode: 200,
 		Message:    "Başarıyla giriş yapıldı.",
-		Token:      "randomjwt",
+		Token:      token,
 	}, nil
 }
 func (p *PostAppServer) SignUp(ctx context.Context, req *Api.SignUpReq) (*Api.SignUpRes, error) {
@@ -158,8 +163,8 @@ func (p *PostAppServer) SignUp(ctx context.Context, req *Api.SignUpReq) (*Api.Si
 	}, nil
 }
 func (p *PostAppServer) LikePost(ctx context.Context, req *Api.LikePostReq) (*Api.LikePostRes, error) {
-	if req.GetToken() != "randomjwt" {
-		return nil, errors.New("Unauthorized")
+	if _, err := token.ParseToken(req.GetToken()); err != nil {
+		return nil, errors.New("Unauthorized: Token geçersiz.")
 	}
 	err := db.LikePost(req.GetUuid())
 	if err != nil {
@@ -172,8 +177,8 @@ func (p *PostAppServer) LikePost(ctx context.Context, req *Api.LikePostReq) (*Ap
 	}, nil
 }
 func (p *PostAppServer) DislikePost(ctx context.Context, req *Api.DislikePostReq) (*Api.DislikePostRes, error) {
-	if req.GetToken() != "randomjwt" {
-		return nil, errors.New("Unauthorized")
+	if _, err := token.ParseToken(req.GetToken()); err != nil {
+		return nil, errors.New("Unauthorized: Token geçersiz.")
 	}
 	err := db.DislikePost(req.GetUuid())
 	if err != nil {
@@ -186,8 +191,8 @@ func (p *PostAppServer) DislikePost(ctx context.Context, req *Api.DislikePostReq
 	}, nil
 }
 func (p *PostAppServer) CommentPost(ctx context.Context, req *Api.CommentPostReq) (*Api.CommentPostRes, error) {
-	if req.GetToken() != "randomjwt" {
-		return nil, errors.New("Unauthorized")
+	if _, err := token.ParseToken(req.GetToken()); err != nil {
+		return nil, errors.New("Unauthorized: Token geçersiz.")
 	}
 	err := db.CommentPost(req.GetPostUuid(), req.GetUserUuid(), req.GetComment())
 	if err != nil {
