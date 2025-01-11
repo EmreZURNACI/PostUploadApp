@@ -1,6 +1,6 @@
 {
     "host":"localhost",
-    "port":5432,
+    "port":5555,
     "user":"postgres",
     "password":"123",
     "dbname":"grpc_denemesi"
