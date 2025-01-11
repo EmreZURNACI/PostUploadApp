@@ -62,7 +62,11 @@ func SignIn(telno string, email string, password string) error {
 	if err != nil {
 		return err
 	}
+	//Linux makineler için
 	file, err := ReadInfo(fmt.Sprintf("%s/Desktop/PostUploadApp/Database/config.json", homeDir))
+
+	//Windows makineler için
+	//file, err := ReadInfo(fmt.Sprintf("%s\\Desktop\\PostUploadApp\\Database\\config.json", homeDir))
 	if err != nil {
 		return err
 	}
